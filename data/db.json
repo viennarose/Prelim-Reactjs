@@ -1,0 +1,28 @@
+{
+    "visitors": [
+        {
+            "id":"1",
+            "lastName":"Pepito",
+            "firstName":"Vienna",
+            "visitPurpose":"Payment",
+            "date":"09/19/2022"
+    
+        },
+        {
+            "id":"2",
+            "lastName":"Pepito",
+            "firstName":"Bevien",
+            "visitPurpose":"Enrol",
+            "date":"09/25/2022"
+    
+        },
+        {
+            "id":"3",
+            "lastName":"Pepito",
+            "firstName":"Lexus",
+            "visitPurpose":"Get Grades",
+            "date":"09/20/2022"
+    
+        }
+    ]
+}

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Button, Table, Form} from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -7,36 +7,22 @@ function Home(){
     const [firstName, setFirstName] = useState("");
     const [visitPurpose, setVisitPurpose] = useState("");
     const [date, setDate] = useState("");
-    const [visitors, setVisitors] = useState([
-        {
-            id:"1",
-            lastName:"Pepito",
-            firstName:"Vienna",
-            visitPurpose:"Payment",
-            date:"09/19/2022"
-    
-        },
-        {
-            id:"2",
-            lastName:"Pepito",
-            firstName:"Bevien",
-            visitPurpose:"Enrol",
-            date:"09/25/2022"
-    
-        },
-        {
-            id:"3",
-            lastName:"Pepito",
-            firstName:"Lexus",
-            visitPurpose:"Get Grades",
-            date:"09/19/2022"
-    
-        }]);
+    const [visitors, setVisitors] = useState(null);
 
         const handleDelete = (id ) => {
             setVisitors(visitors.filter(i => i.id !== id));
           
         };
+
+        useEffect(() => {
+            fetch('http://localhost:8000/visitors')
+            .then(res => {
+                return res.json()
+            })
+            .then(data =>  {
+                setVisitors(data);
+            })
+        }, []);
 
         const handleSubmit = () =>{
             const newVisitor = {
@@ -88,7 +74,7 @@ function Home(){
                     </tr>
                 </thead>
                 <tbody>
-                {
+                { visitors && 
                     visitors.map((visitor, ids)=>{
                         return(
                             <tr key={ids}>
