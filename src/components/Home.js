@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useState, useEffect} from "react";
 import {Button, Table, Form} from 'react-bootstrap';
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -7,47 +7,32 @@ function Home(){
     const [firstName, setFirstName] = useState("");
     const [visitPurpose, setVisitPurpose] = useState("");
     const [date, setDate] = useState("");
-    const [visitors, setVisitors] = useState([
-        {
-            id:"1",
-            lastName:"Pepito",
-            firstName:"Vienna",
-            visitPurpose:"Payment",
-            date:"09/19/2022"
-    
-        },
-        {
-            id:"2",
-            lastName:"Pepito",
-            firstName:"Bevien",
-            visitPurpose:"Enrol",
-            date:"09/25/2022"
-    
-        },
-        {
-            id:"3",
-            lastName:"Pepito",
-            firstName:"Lexus",
-            visitPurpose:"Get Grades",
-            date:"09/19/2022"
-    
-        }]);
+    const [visitors, setVisitors] = useState(null);
+
+        const handleDelete = (id ) => {
+            setVisitors(visitors.filter(i => i.id !== id));
+          
+        };
+
+        useEffect(() => {
+            fetch('http://localhost:8000/visitors')
+            .then(res => {
+                return res.json()
+            })
+            .then(data =>  {
+                setVisitors(data);
+            })
+        }, []);
+
         const handleSubmit = () =>{
             const newVisitor = {
                 lastName: lastName,
                 firstName: firstName,
-                visitPurpose:visitPurpose,
-                date:date,
-        
+                visitPurpose: visitPurpose,
+                date: date,
             };
-        
-            setVisitors((prev) => [...prev, newVisitor]);
+            setVisitors((prevState) => [...prevState, newVisitor]);
         }
-
-    const handleDelete = (id ) => {
-        setVisitors(visitors.filter(i => i.id !== id));
-      
-    };
     
     return(
         <div className="row m-5">
@@ -58,22 +43,22 @@ function Home(){
             <div className="card-body">
             <Form className="d-grid gap-2">
                 <Form.Group className="mb-3" controlId="formLastName">
-                    <Form.Control type="text" placeholder="Enter Last Name" required onChange={(e) => setLastName(e.target.value)}>
+                    <Form.Control type="text" placeholder="Last Name" required onChange={(e) => setLastName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formFirstName">
-                    <Form.Control type="text" placeholder="Enter First Name" required onChange={(e) => setFirstName(e.target.value)}>
+                    <Form.Control type="text" placeholder="First Name" required onChange={(e) => setFirstName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formVisitPurpose">
-                    <Form.Control type="text" placeholder="Enter Purpose of Visit" required onChange={(e) => setVisitPurpose(e.target.value)}>
+                    <Form.Control type="text" placeholder="Purpose of Visit" required onChange={(e) => setVisitPurpose(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDate">
-                    <Form.Control type="date" placeholder="Enter Date" required onChange={(e) => setDate(e.target.value)}>
+                    <Form.Control type="date" placeholder="Date" required onChange={(e) => setDate(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
-                <Button onClick={handleSubmit} type="submit">Add</Button>
+                <Button onClick={handleSubmit}>Add</Button>
             </Form>
             </div>
         </div>
@@ -89,10 +74,10 @@ function Home(){
                     </tr>
                 </thead>
                 <tbody>
-                {
-                    visitors.map((visitor, index)=>{
+                { visitors && 
+                    visitors.map((visitor, ids)=>{
                         return(
-                            <tr key={index}>
+                            <tr key={ids}>
                                 <td>{visitor.lastName}</td>
                                 <td>{visitor.firstName}</td>
                                 <td>{visitor.visitPurpose}</td>
