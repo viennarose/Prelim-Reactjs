@@ -32,22 +32,21 @@ function Home(){
             date:"09/19/2022"
     
         }]);
+
+        const handleDelete = (id ) => {
+            setVisitors(visitors.filter(i => i.id !== id));
+          
+        };
+
         const handleSubmit = () =>{
             const newVisitor = {
                 lastName: lastName,
                 firstName: firstName,
-                visitPurpose:visitPurpose,
-                date:date,
-        
+                visitPurpose: visitPurpose,
+                date: date,
             };
-        
-            setVisitors((prev) => [...prev, newVisitor]);
+            setVisitors((prevState) => [...prevState, newVisitor]);
         }
-
-    const handleDelete = (id ) => {
-        setVisitors(visitors.filter(i => i.id !== id));
-      
-    };
     
     return(
         <div className="row m-5">
@@ -58,22 +57,22 @@ function Home(){
             <div className="card-body">
             <Form className="d-grid gap-2">
                 <Form.Group className="mb-3" controlId="formLastName">
-                    <Form.Control type="text" placeholder="Enter Last Name" required onChange={(e) => setLastName(e.target.value)}>
+                    <Form.Control type="text" placeholder="Last Name" required onChange={(e) => setLastName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formFirstName">
-                    <Form.Control type="text" placeholder="Enter First Name" required onChange={(e) => setFirstName(e.target.value)}>
+                    <Form.Control type="text" placeholder="First Name" required onChange={(e) => setFirstName(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formVisitPurpose">
-                    <Form.Control type="text" placeholder="Enter Purpose of Visit" required onChange={(e) => setVisitPurpose(e.target.value)}>
+                    <Form.Control type="text" placeholder="Purpose of Visit" required onChange={(e) => setVisitPurpose(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
                 <Form.Group className="mb-3" controlId="formDate">
-                    <Form.Control type="date" placeholder="Enter Date" required onChange={(e) => setDate(e.target.value)}>
+                    <Form.Control type="date" placeholder="Date" required onChange={(e) => setDate(e.target.value)}>
                     </Form.Control>
                 </Form.Group>
-                <Button onClick={handleSubmit} type="submit">Add</Button>
+                <Button onClick={handleSubmit}>Add</Button>
             </Form>
             </div>
         </div>
@@ -90,9 +89,9 @@ function Home(){
                 </thead>
                 <tbody>
                 {
-                    visitors.map((visitor, index)=>{
+                    visitors.map((visitor, ids)=>{
                         return(
-                            <tr key={index}>
+                            <tr key={ids}>
                                 <td>{visitor.lastName}</td>
                                 <td>{visitor.firstName}</td>
                                 <td>{visitor.visitPurpose}</td>
